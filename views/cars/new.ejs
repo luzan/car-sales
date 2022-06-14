@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head'); %>
+</head>
+
+<body>
+    <%- include('../partials/header'); %>
+
+    <div class="container px-5 my-5">
+        <h3>Add a new Car</h3>
+        <form id="contactForm" action="/cars" method="post" >
+            <div class="mb-3">
+                <label class="form-label" for="title">Title</label>
+                <input class="form-control" id="title" type="text" placeholder="Title" required />
+                <div class="invalid-feedback" data-sb-feedback="title:required">Title is required.</div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="status">Status</label>
+                <select class="form-select" id="status" aria-label="Status">
+                    <option value="New">New</option>
+                    <option value="Used">Used</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="distance">Distance</label>
+                <input class="form-control" id="distance" type="text" placeholder="Distance" required />
+                <div class="invalid-feedback" data-sb-feedback="distance:required">Distance is required.</div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="price">Price</label>
+                <input class="form-control" id="price" type="text" placeholder="Price" required />
+                
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="make">Make</label>
+                <select class="form-select" id="make" aria-label="Make">
+                    <option value="Audi">Audi</option>
+                    <option value="BMW">BMW</option>
+                    <option value="Ford">Ford</option>
+                    <option value="Honda">Honda</option>
+                    <option value="Tesla">Tesla</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="model">Model</label>
+                <input class="form-control" id="model" type="text" placeholder="Model" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="bodyType">Body Type</label>
+                <select class="form-select" id="bodyType" aria-label="Body Type">
+                    <option value="Sedan">Sedan</option>
+                    <option value="Coupe">Coupe</option>
+                    <option value="SUV">SUV</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="sellersNote">Seller&#x27;s Note</label>
+                <textarea class="form-control" id="sellersNote" type="text" placeholder="Seller&#x27;s Note" style="height: 10rem;"></textarea>
+            </div>
+            <div class="d-grid">
+                <button class="btn btn-primary btn-lg disabled" id="submitButton" type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+    <%- include('../partials/footer'); %>
+</body>
+
+</html>

@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head'); %>
+</head>
+
+<body>
+    <%- include('../partials/header'); %>
+        <div class="container">
+
+            <h3>Cars</h3>
+            <div class="row g-5">
+                <div class="col-md-4 border shadow-sm">
+                    <div class="position-sticky" style="top: 2rem;">
+                        <div class="p-4 mb-3 bg-light rounded">
+                            <h4 class="fst-italic">About</h4>
+                            <p class="mb-0">Customize this section to tell your visitors a little bit about your
+                                publication, writers, content, or something else entirely. Totally up to you.</p>
+                        </div>
+
+                        <div class="p-4">
+                            <h4 class="fst-italic">Archives</h4>
+                            <ol class="list-unstyled mb-0">
+                                <li><a href="#">March 2021</a></li>
+                                <li><a href="#">February 2021</a></li>
+                                <li><a href="#">January 2021</a></li>
+                                <li><a href="#">December 2020</a></li>
+                            </ol>
+                        </div>
+
+                        <div class="p-4">
+                            <h4 class="fst-italic">Elsewhere</h4>
+                            <ol class="list-unstyled">
+                                <li><a href="#">GitHub</a></li>
+                                <li><a href="#">Twitter</a></li>
+                                <li><a href="#">Facebook</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <% for( let car of cars ) { %>
+                        <article>
+                            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                                    <div class="col p-4 d-flex flex-column position-static">
+                                        <strong class="d-inline-block mb-2 text-primary"><%= car.status %></strong>
+                                        <h4 class="fw-bold mb-0"><%= car.title %></h4>
+                                        <h6 class="fw-bold mb-0"><%= car.make %> - <%= car.model %></h6>
+                                        <div class="mb-3 text-muted"><%= car.distance %> mi.</div>
+                                        <h3 class="mb-2">$ <%= car.price %></h3>
+                                        <p class="card-text mb-auto">This is a wider card with supporting text below as a
+                                            natural
+                                            lead-in to additional content.</p>
+                                        <div>
+                                            <a href="/cars/<%= car.id %>" class="">Edit</a> &nbsp;
+                                            <a href="#delete" class="">Delete</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto d-none d-lg-block">
+                                        <img src="<%= car.imageUrl[0] %>"
+                                            class="" alt="" width="420" height="310">
+                                    </div>
+                                </div>
+                        </article>
+                    <% } %>
+                </div>
+
+            </div>
+
+        </div>
+        <%- include('../partials/footer'); %>
+</body>
+
+</html>
