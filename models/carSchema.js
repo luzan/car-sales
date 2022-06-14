@@ -5,16 +5,34 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var CarSchema = new Schema({
-    title: String,
-    isNew: { type: Boolean, default: false},
-    isUsed: { type: Boolean, default: false},
-    make: { type: Number, default: 2019},
+    title: {
+        type: String,
+        required: true
+    },
+    status: {
+        type: String,
+        enum: ['new','used']
+    },
+    year: { 
+        type: Number, 
+        enum: [2016, 2017, 2018, 2019, 2020, 2021, 2022],
+        default: 2019
+    },
+    make: {
+        type: String,
+        required: true
+    },
     distance: { type: Number, default: 1},
-    model: String,
+    model: {
+        type: String,
+        required: true
+    },
     price: mongoose.Types.Decimal128,
     imageUrl: [{ type: String }],
-
+    bodyStyle: String
 });
 
 // Compile model from schema
-var CarModel = mongoose.model('CarModel', CarSchema);
+const Car = mongoose.model('Car', CarSchema);
+
+module.exports = Car;
