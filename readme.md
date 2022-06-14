@@ -9,15 +9,24 @@ This project is for submission of final project for WAP 472 and is developed usi
 - [x] Create folder structure for MVC
 - [x] Create and setup server.js
 - [ ] Create Views
-    - [ ] create partial layouts
-    - [ ] create individual layouts
-    - [ ] implement css
+    - [X] create partial layouts
+    - [x] implement bootstrap
+    - [ ] create individual layouts for cars
+    - [ ] create individual layouts for users
 - [ ] Create Controllers
-- [ ] Setup project for using Mongoose
+- [x] Setup project for using Mongoose
     - [ ] Create Models
     - [ ] Write Schemas for User
-    - [ ] Write Schemas for Cars
+    - [ ] Seed User data
+    - [x] Write Schemas for Cars
+    - [x] Seed Car data
+- [ ] Add filter 
+- [ ] Add Sort
+- [ ] Implement Authentication 
+- [ ] Implement Remember Me feature during Login
 - [ ] (Optional) Setup unit testing for Controllers
+- [ ] (Optional) Validate Inputs 
+
 
 ## RESTful APIS ***for users***
 
@@ -39,7 +48,7 @@ This project is for submission of final project for WAP 472 and is developed usi
 | Index   |     /cars      |  GET   |              Display all cars |
 | New     |   /cars/new    |  GET   |        From to create new car |
 | Create  |     /cars      |  POST  |      Create new car on server |
-| Show    |   /cars/:id    |  GET   |  Details for one specific car |
+| Show(skip)    |   /cars/:id    |  GET   |  Details for one specific car |
 | Edit    | /cars/:id/edit |  GET   |     From to edit specific car |
 | Update  |   /cars/:id    | PATCH  | Update specific car on server |
 | Destroy |   /cars/:id    | DELETE | Delete specific car on server |
