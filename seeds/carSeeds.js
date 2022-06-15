@@ -1,7 +1,7 @@
 //Import the mongoose module
 const mongoose = require('mongoose');
 // import model
-const Car = require('./models/carSchema')
+const Car = require('../models/carSchema')
 //Set up default mongoose connection
 const mongoDB = 'mongodb://127.0.0.1/cars';
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true})
