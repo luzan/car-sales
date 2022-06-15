@@ -11,10 +11,10 @@ var CarSchema = new Schema({
     },
     status: {
         type: String,
-        enum: ['new','used']
+        enum: ['New', 'Used']
     },
-    year: { 
-        type: Number, 
+    year: {
+        type: Number,
         enum: [2016, 2017, 2018, 2019, 2020, 2021, 2022],
         default: 2019
     },
@@ -22,14 +22,15 @@ var CarSchema = new Schema({
         type: String,
         required: true
     },
-    distance: { type: Number, default: 1},
+    distance: { type: Number, default: 1 },
     model: {
         type: String,
         required: true
     },
     price: mongoose.Types.Decimal128,
-    imageUrl: [{ type: String }],
-    bodyStyle: String
+    imageUrl: { type: String, default: null },
+    bodyStyle: String,
+    sellersNote: String
 });
 
 // Compile model from schema
