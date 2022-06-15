@@ -26,7 +26,7 @@ const { loginIndex } = require('./controllers/loginController');
 // middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(express.static('public'))
 // override with POST having ?_method=DELETE
 app.use(methodOverride('_method'))
 
@@ -55,14 +55,65 @@ app.get('/cars', async (req, res) => {
 
 // GET /cars/new - From to create new car
 app.get('/cars/new', async (req, res) => {
-    res.render('cars/new');
+    const makes = await Make.find({});
+    console.log(makes);
+    
+    res.render('cars/new', { makes });
 })
 
+// POST /cars - create new car on server
+app.post('/cars', async (req, res) => {
+    console.log(req.body);
+    const { title, status, year, distance, price, make, model, bodyStyle, sellersNote } = req.body;
+
+    const car = new Car({
+        title: title,
+        status: status,
+        year: parseInt(year),
+        make: make,
+        distance: distance,
+        model: model,
+        price: parseInt(price),
+        bodyStyle: bodyStyle,
+        sellersNote: sellersNote
+    })
+    await car.save();
+    res.redirect('/cars')
+})
 // GET /cars/:id - Details for one specific car
-app.get('/cars/:id', async (req, res) => {
+
+// GET /cars/:id/edit - Form to edit a car
+app.get('/cars/:id/edit', async (req, res) => {
     const { id } = req.params;
+    const makes = await Make.find({});
     const car = await Car.findById(id);
-    res.send('edit page');
+    console.log(car);
+    res.render('cars/edit', {car, makes })
+})
+
+// PUT /cars/:id - Update specific car on server
+app.put('/cars/:id', async (req, res) => {
+    const { id } = req.params;
+    const { title, status, year, distance, price, make, model, bodyStyle, sellersNote } = req.body;
+    const car = await Car.findByIdAndUpdate(id, {
+        title: title,
+        status: status,
+        year: parseInt(year),
+        make: make,
+        distance: distance,
+        model: model,
+        price: parseInt(price),
+        bodyStyle: bodyStyle,
+        sellersNote: sellersNote
+    })
+    res.redirect('/cars');
+})
+
+// DELETE /cars/:id - Delete specific car on server
+app.delete('/cars/:id', async (req, res)=> {
+    const {id} = req.params;
+    await Car.findByIdAndDelete(id);
+    res.redirect('/cars');
 })
 
 // Makes CRUD
@@ -70,6 +121,12 @@ app.get('/cars/:id', async (req, res) => {
 app.get('/makes', async (req, res) => {
     const makes = await Make.find({});
     res.render('makes/index', {makes});
+})
+
+// GET /api/makes - Display all makes
+app.get('/api/makes', async (req, res) => {
+    const makes = await Make.find({});
+    res.send(makes);
 })
 
 // GET /makes/new - From to create new make
