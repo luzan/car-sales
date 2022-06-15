@@ -44,22 +44,21 @@
                         <article>
                             <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                                     <div class="col p-4 d-flex flex-column position-static">
-                                        <strong class="d-inline-block mb-2 text-primary"><%= car.status %></strong>
+                                        <strong class="d-inline-block mb-2 <%= car.status ==='Used'?'text-primary':'text-success' %>"><%= car.status %></strong>
                                         <h4 class="fw-bold mb-0"><%= car.title %></h4>
                                         <h6 class="fw-bold mb-0"><%= car.make %> - <%= car.model %></h6>
                                         <div class="mb-3 text-muted"><%= car.distance %> mi.</div>
                                         <h3 class="mb-2">$ <%= car.price %></h3>
-                                        <p class="card-text mb-auto">This is a wider card with supporting text below as a
-                                            natural
-                                            lead-in to additional content.</p>
-                                        <div>
-                                            <a href="/cars/<%= car.id %>" class="">Edit</a> &nbsp;
-                                            <a href="#delete" class="">Delete</a>
-                                        </div>
+                                        <p class="card-text mb-auto"><%= car.sellersNote %></p>
+                                        <form class=" my-2 my-lg-0" method="post" action="/cars/<% car.id %>?_method=DELETE">
+                                            <a href="/cars/<%= car.id %>/edit" class="btn btn-outline-primary">Edit</a> &nbsp;
+                                            <button class="btn btn-outline-danger" type="submit">Delete</button>
+                                        </form>
                                     </div>
+                                    
                                     <div class="col-auto d-none d-lg-block">
-                                        <img src="<%= car.imageUrl[0] %>"
-                                            class="" alt="" width="420" height="310">
+                                        <img src="<%= car.imageUrl != null? car.imageUrl : '/img/thumbnail.jpg' %>"
+                                            class="" alt="" width="400" height="400">
                                     </div>
                                 </div>
                         </article>
