@@ -27,7 +27,7 @@ var CarSchema = new Schema({
         type: String,
         required: true
     },
-    price: mongoose.Types.Decimal128,
+    price: Number,
     imageUrl: { type: String, default: null },
     bodyStyle: String,
     sellersNote: String
