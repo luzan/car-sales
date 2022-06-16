@@ -10,14 +10,14 @@ const Car = require('./models/carSchema');
 const Make = require('./models/makeSchema');
 //Set up default mongoose connection
 const mongoDB = 'mongodb://127.0.0.1/cars';
-mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true})
-.then(() => {
-    console.log("MongoDB Connected!");
-})
-.catch((err) => {
-    console.log("MongoDB Connection Error!!");
-    console.log(err);
-});
+mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => {
+        console.log("MongoDB Connected!");
+    })
+    .catch((err) => {
+        console.log("MongoDB Connection Error!!");
+        console.log(err);
+    });
 
 
 // importing controllers
@@ -38,32 +38,72 @@ app.engine('html', ejs.renderFile)
 // Login Routes as index
 // app.use('/', loginIndex);
 
-app.get('/', (req, res)=> {
+app.get('/', (req, res) => {
     res.render('index');
 })
 
 // CARS APIS
+app.get('/cars/filter', async(req, res) =>{
+    let { status, price, make, model, distance, order } = req.query;
+    let query = {};
+    console.log(req.query);
+    if (status != null) status != 'newandused' ? query.status = status: null;
+    if (price != null) price != 'all' ? (parseInt(price) > 50000) ? query.price = { $gt: parseInt(price) }: query.price = { $lt: parseInt(price) }: null;
+    if (make != null) make != 'all' ? query.make = make: null;
+    if (model != null) model != 'all' ? query.model = model: null;
+    if (distance != null) distance != 'all' ? (parseInt(distance) > 100000) ? query.distance = { $gt: parseInt(distance) }: query.distance = { $lt: parseInt(distance) }: null;
+
+    console.log(query);
+    let cars = {};
+    // if(order != null){
+    //     console.log('inside order')
+    //     order == 'asc' ? cars = await Car.find(query).sort({price:1}):cars = await Car.find(query).sort({price:-1});
+    // } else {
+    //     cars = await Car.find(query);
+    // }
+    cars = await Car.find(query);
+    const makes = await Make.find({});
+    console.log(cars);
+    res.send(cars);
+})
 // GET /cars - Display all cars
 app.get('/cars', async (req, res) => {
     // using async because when using Car.find({}) it will take time
     // to go through all the data in collection and we don't want our 
     // request to wait for it
-    const cars = await Car.find({});
-    console.log(cars);
-    res.render('cars/index', { cars })
+    let { status, price, make, model, distance, order } = req.query;
+    let query = {};
+    //console.log(req.query);
+    if (status != null) status != 'newandused' ? query.status = status: null;
+    if (price != null) price != 'all' ? (parseInt(price) > 50000) ? query.price = { $gt: parseInt(price) }: query.price = { $lt: parseInt(price) }: null;
+    if (make != null) make != 'all' ? query.make = make: null;
+    if (model != null) model != 'all' ? query.model = model: null;
+    if (distance != null) distance != 'all' ? (parseInt(distance) > 100000) ? query.distance = { $gt: parseInt(distance) }: query.distance = { $lt: parseInt(distance) }: null;
+
+    //console.log(query);
+    let cars = {};
+    if(order != null){
+        
+        order == 'asc' ? cars = await Car.find(query).sort({price:1}):cars = await Car.find(query).sort({price:-1});
+    } else {
+        cars = await Car.find(query);
+    }
+    const makes = await Make.find({});
+ 
+    res.render('cars/index', { cars, makes })
 })
 
 // GET /cars/new - From to create new car
 app.get('/cars/new', async (req, res) => {
     const makes = await Make.find({});
     console.log(makes);
-    
+
     res.render('cars/new', { makes });
 })
 
 // POST /cars - create new car on server
 app.post('/cars', async (req, res) => {
-    console.log(req.body);
+
     const { title, status, year, distance, price, make, model, bodyStyle, sellersNote } = req.body;
 
     const car = new Car({
@@ -88,7 +128,7 @@ app.get('/cars/:id/edit', async (req, res) => {
     const makes = await Make.find({});
     const car = await Car.findById(id);
     console.log(car);
-    res.render('cars/edit', {car, makes })
+    res.render('cars/edit', { car, makes })
 })
 
 // PUT /cars/:id - Update specific car on server
@@ -110,8 +150,8 @@ app.put('/cars/:id', async (req, res) => {
 })
 
 // DELETE /cars/:id - Delete specific car on server
-app.delete('/cars/:id', async (req, res)=> {
-    const {id} = req.params;
+app.delete('/cars/:id', async (req, res) => {
+    const { id } = req.params;
     await Car.findByIdAndDelete(id);
     res.redirect('/cars');
 })
@@ -120,7 +160,7 @@ app.delete('/cars/:id', async (req, res)=> {
 // GET /makes - Display all makes
 app.get('/makes', async (req, res) => {
     const makes = await Make.find({});
-    res.render('makes/index', {makes});
+    res.render('makes/index', { makes });
 })
 
 // GET /api/makes - Display all makes
@@ -135,9 +175,9 @@ app.get('/makes/new', (req, res) => {
 })
 
 // POST /makes - create new make on server
-app.post('/makes', async (req, res)=> {
+app.post('/makes', async (req, res) => {
     console.log(req.body);
-    const {name, model1, model2, model3, model4} = req.body;
+    const { name, model1, model2, model3, model4 } = req.body;
     const make = new Make({
         name: name,
         models: [model1, model2, model3, model4]
@@ -147,34 +187,34 @@ app.post('/makes', async (req, res)=> {
 })
 
 // GET /makes/:id - Details for one specific make
-app.get('/makes/:id', async(req, res)=>{
-    const {id} = req.params;
+app.get('/makes/:id', async (req, res) => {
+    const { id } = req.params;
     const make = await Make.findById(id);
-    res.render('makes/show', {make})
+    res.render('makes/show', { make })
 })
 
 // GET /makes/:id/edit - Form to edit a make
-app.get('/makes/:id/edit', async(req, res)=>{
-    const {id} = req.params;
+app.get('/makes/:id/edit', async (req, res) => {
+    const { id } = req.params;
     const make = await Make.findById(id);
-    res.render('makes/edit', {make})
+    res.render('makes/edit', { make })
 })
 
 // PUT /makes/:id - Update specific make on server
 app.put('/makes/:id', async (req, res) => {
     console.log(req.body);
-    const {id} = req.params;
-    const {name, model1, model2, model3, model4} = req.body;
+    const { id } = req.params;
+    const { name, model1, model2, model3, model4 } = req.body;
     const make = await Make.findByIdAndUpdate(id, {
         name: name,
         models: [model1, model2, model3, model4]
     }, { runValidators: true, new: true });
-    res.redirect(`/makes/${ make._id }`)
+    res.redirect(`/makes/${make._id}`)
 })
 
 // DELETE /makes/:id - Delete specific make on server
-app.delete('/makes/:id', async (req, res)=> {
-    const {id} = req.params;
+app.delete('/makes/:id', async (req, res) => {
+    const { id } = req.params;
     await Make.findByIdAndDelete(id);
     res.redirect('/makes');
 })
@@ -182,4 +222,4 @@ app.delete('/makes/:id', async (req, res)=> {
 
 // port
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => { console.log('App running on ' + process.env.PORT)});
+app.listen(PORT, () => { console.log('App running on ' + process.env.PORT) });
