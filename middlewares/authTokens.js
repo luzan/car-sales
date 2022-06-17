@@ -14,5 +14,6 @@ module.exports = {
                 messageClass: 'alert-danger'
             });
         }
-    }
+    },
+    isLoggedIn: false
 }
