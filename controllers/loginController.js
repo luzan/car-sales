@@ -1,11 +1,11 @@
 const UserModel = require("../models/userSchema")
 
 const loginIndex = (req, res) => {
-    res.render('index');
+    res.render('index', {hide : true});
 }
 
 const registerIndex = (req, res) => {
-    res.render('register');
+    res.render('register', {hide : true});
 }
 
 const registerPost = async (req, res) => {
@@ -16,6 +16,11 @@ const registerPost = async (req, res) => {
     });
     await user.save();
     res.redirect('/');
+}
+
+const logout = (req, res) => {
+    res.clearCookie('AuthToken');
+    res.redirect('/')
 }
 
 module.exports = {
@@ -40,5 +45,6 @@ module.exports = {
         })
     },
     registerIndex,
-    registerPost
+    registerPost,
+    logout
 }
