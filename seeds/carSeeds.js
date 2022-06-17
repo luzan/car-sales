@@ -22,6 +22,7 @@ const carsSeed = [
         distance: 13954,
         model: 'Model Y',
         price: 71995,
+        zipCode: '52557',
         bodyStyle: 'Sedan',
         imageUrl: 'https://media.autoexpress.co.uk/image/private/s--X-WVjvBW--/f_auto,t_content-image-full-desktop@1/v1634205604/autoexpress/2021/10/Tesla%20Model%20Y%202021-4.jpg',
         sellersNote: 'Great dependable vehicle with all the wanted accessories! Leather interior with heated front seats, power driver and passenger seats, dual moonroof, premium sound system, back-up camera, luggage rack, power lift gate and so much more.'
@@ -34,6 +35,7 @@ const carsSeed = [
         distance: 12397,
         model: 'All road',
         price: 23899,
+        zipCode: '52557',
         bodyStyle: 'SUV',
         imageUrl: 'https://www.quattrodaily.com/wp-content/uploads/2020/07/C5-Audi-Allroad-1-1360x1008.jpg',
         sellersNote: 'Great dependable vehicle with all the wanted accessories! Leather interior with heated front seats, power driver and passenger seats, dual moonroof, premium sound system, back-up camera, luggage rack, power lift gate and so much more.'
@@ -46,6 +48,7 @@ const carsSeed = [
         distance: 11663,
         model: 'Z4 M',
         price: 67832,
+        zipCode: '52557',
         bodyStyle: 'Coupe',
         imageUrl: 'https://hips.hearstapps.com/hmg-prod/images/2020-bmw-z4-m40i-105-1568895913.jpg?crop=0.606xw:0.683xh;0.170xw,0.252xh&resize=640:*',
         sellersNote: 'Great dependable vehicle with all the wanted accessories! Leather interior with heated front seats, power driver and passenger seats, dual moonroof, premium sound system, back-up camera, luggage rack, power lift gate and so much more.'
@@ -58,6 +61,7 @@ const carsSeed = [
         distance: 1,
         model: 'E-tron',
         price: 80630,
+        zipCode: '52557',
         bodyStyle: 'SUV',
         imageUrl: 'https://www.autotrader.com/wp-content/uploads/2021/05/2021-audi-e-tron-premium-front-left-side-e1639075042759.jpg',
         sellersNote: 'Great dependable vehicle with all the wanted accessories! Leather interior with heated front seats, power driver and passenger seats, dual moonroof, premium sound system, back-up camera, luggage rack, power lift gate and so much more.'

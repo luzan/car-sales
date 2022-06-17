@@ -48,7 +48,7 @@ function getArticleHTML(cars) {
                     ${car.make} - ${car.model}
                 </h6>
                 <div class="mb-3 text-muted">
-                ${car.distance} mi.
+                ${car.distance} mi. <i class="fa-solid fa-location-dot"></i> ${car.zipCode}
                 </div>
                 <h3 class="mb-2">$ ${car.price}</h3>
                 <p class="card-text mb-auto">
@@ -104,16 +104,17 @@ const newCarForm = async (req, res) => {
 
 const postNewCar = async (req, res) => {
 
-    const { title, status, year, distance, price, make, model, bodyStyle, sellersNote } = req.body;
+    const { title, status, year, distance, price, zipCode, make, model, bodyStyle, sellersNote } = req.body;
 
     const car = new Car({
         title: title,
         status: status,
         year: parseInt(year),
         make: make,
-        distance: distance,
+        distance: parseInt(distance),
         model: model,
         price: parseInt(price),
+        zipCode: parseInt(zipCode),
         bodyStyle: bodyStyle,
         sellersNote: sellersNote
     })
@@ -131,7 +132,7 @@ const editCarForm = async (req, res) => {
 
 const editCarRequest = async (req, res) => {
     const { id } = req.params;
-    const { title, status, year, distance, price, make, model, bodyStyle, sellersNote } = req.body;
+    const { title, status, year, distance, price, zipCode, make, model, bodyStyle, sellersNote } = req.body;
     const car = await Car.findByIdAndUpdate(id, {
         title: title,
         status: status,
@@ -140,6 +141,7 @@ const editCarRequest = async (req, res) => {
         distance: distance,
         model: model,
         price: parseInt(price),
+        zipCode: parseInt(zipCode),
         bodyStyle: bodyStyle,
         sellersNote: sellersNote
     })

@@ -28,6 +28,7 @@ var CarSchema = new Schema({
         required: true
     },
     price: Number,
+    zipCode: Number,
     imageUrl: { type: String, default: null },
     bodyStyle: String,
     sellersNote: String
