@@ -181,6 +181,7 @@ module.exports = {
 When storing AuthToken in the cookies, if user has selected remember me then expiring time of AuthToken is set to 2 minutes (which is custom and can me modified as required, e.g. for a day). And if user didn't check remember me then AuthToken is set to expire after the session is over (or browser is closed).
 
 ```javascript
+const minute = process.env.MAXSESSION * 60 * 1000;
 const authToken = generateAuthToken();
 authTokens[authToken] = username;
 remember? res.cookie('AuthToken', authToken, { maxAge: minute }) : res.cookie('AuthToken', authToken);

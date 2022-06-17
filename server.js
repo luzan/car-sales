@@ -9,7 +9,7 @@ require("dotenv").config();
 const mongoose = require('mongoose');
 
 //Set up default mongoose connection
-const mongoDB = 'mongodb://127.0.0.1/cars';
+const mongoDB = process.env.MONGOURL;
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
         console.log("MongoDB Connected!");

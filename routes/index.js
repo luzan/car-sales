@@ -9,7 +9,7 @@ router.post('/', (req, res)=> {
     const { username, password, remember } = req.body;
     loginUser(username, password, (resp) => {
         if (resp.success === true) {
-            const minute = 2 * 60 * 1000;
+            const minute = process.env.MAXSESSION * 60 * 1000;
             const authToken = generateAuthToken();
             authTokens[authToken] = username;
             remember? res.cookie('AuthToken', authToken, { maxAge: minute }) : res.cookie('AuthToken', authToken);
