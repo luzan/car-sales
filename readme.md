@@ -37,6 +37,7 @@ This project is for submission of final project for WAP 472 and is developed usi
 - [ ] (Optional) Setup unit testing for Controllers
 
 ## Project folder Structure
+```
 .
 └── Project/
     ├── controllers/
@@ -85,6 +86,7 @@ This project is for submission of final project for WAP 472 and is developed usi
     ├── Project.pdf
     ├── readme.me
     └── server.js
+```
 
 ## RESTful APIS ***for login and register***
 
