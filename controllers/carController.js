@@ -1,31 +1,40 @@
 
 const Car = require('../models/carSchema');
 const Make = require('../models/makeSchema');
+const multer  = require('multer')
+const fs = require('fs');
+const path = require('path');
+const { promisify } = require('util')
+const unlinkAsync = promisify(fs.unlink)
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, '/public/uploads')
+    },
+    filename: function (req, file, cb) {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+      cb(null, file.fieldname + '-' + uniqueSuffix)
+    }
+  })
+  
+const upload = multer({ storage: storage })
 
 const filterCars = async (req, res) => {
     let { status, price, make, model, distance, order } = req.query;
     let query = {};
-    console.log(req.query);
+    let cars = {};
+
     if (status != null) status != 'newandused' ? query.status = status : null;
     if (price != null) price != 'all' ? (parseInt(price) > 50000) ? query.price = { $gt: parseInt(price) } : query.price = { $lt: parseInt(price) } : null;
     if (make != null) make != 'all' ? query.make = make : null;
     if (model != null) model != 'all' ? query.model = model : null;
     if (distance != null) distance != 'all' ? (parseInt(distance) > 100000) ? query.distance = { $gt: parseInt(distance) } : query.distance = { $lt: parseInt(distance) } : null;
-
-    console.log(query);
-    let cars = {};
-    if (order != null) {
-        console.log('if');
-        order == 'asc' ? cars = await Car.find(query).sort({ price: 1 }) : cars = await Car.find(query).sort({ price: -1 });
-    } else {
-        console.log('else');
-        cars = await Car.find(query);
-    }
-    const makes = await Make.find({});
+    if (order != null) order == 'asc' ? cars = await Car.find(query).sort({ price: 1 }) : cars = await Car.find(query).sort({ price: -1 });
+        else cars = await Car.find(query);
 
     let html = getArticleHTML(cars);
 
-    res.send({ html, cars, makes })
+    res.send({ html })
 }
 
 function getArticleHTML(cars) {
@@ -73,23 +82,7 @@ function getArticleHTML(cars) {
 }
 
 const getCars = async (req, res) => {
-    let { status, price, make, model, distance, order } = req.query;
-    let query = {};
-    //console.log(req.query);
-    if (status != null) status != 'newandused' ? query.status = status : null;
-    if (price != null) price != 'all' ? (parseInt(price) > 50000) ? query.price = { $gt: parseInt(price) } : query.price = { $lt: parseInt(price) } : null;
-    if (make != null) make != 'all' ? query.make = make : null;
-    if (model != null) model != 'all' ? query.model = model : null;
-    if (distance != null) distance != 'all' ? (parseInt(distance) > 100000) ? query.distance = { $gt: parseInt(distance) } : query.distance = { $lt: parseInt(distance) } : null;
-
-    //console.log(query);
-    let cars = {};
-    if (order != null) {
-
-        order == 'asc' ? cars = await Car.find(query).sort({ price: 1 }) : cars = await Car.find(query).sort({ price: -1 });
-    } else {
-        cars = await Car.find(query);
-    }
+    const cars = await Car.find();
     const makes = await Make.find({});
 
     res.render('cars/index', { cars, makes })
@@ -97,15 +90,17 @@ const getCars = async (req, res) => {
 
 const newCarForm = async (req, res) => {
     const makes = await Make.find({});
-    console.log(makes);
-
+    
     res.render('cars/new', { makes });
 }
 
 const postNewCar = async (req, res) => {
-
+    
     const { title, status, year, distance, price, zipCode, make, model, bodyStyle, sellersNote } = req.body;
-
+    let imageUrl = '';
+    if(req.file.originalname) {
+        imageUrl = '/uploads/' + req.file.filename;
+    }
     const car = new Car({
         title: title,
         status: status,
@@ -116,7 +111,8 @@ const postNewCar = async (req, res) => {
         price: parseInt(price),
         zipCode: parseInt(zipCode),
         bodyStyle: bodyStyle,
-        sellersNote: sellersNote
+        sellersNote: sellersNote,
+        imageUrl: imageUrl
     })
     await car.save();
     res.redirect('/cars')
@@ -150,7 +146,8 @@ const editCarRequest = async (req, res) => {
 
 const deleteCar = async (req, res) => {
     const { id } = req.params;
-    await Car.findByIdAndDelete(id);
+    const deletedCar = await Car.findByIdAndDelete(id);
+    await unlinkAsync(path.join(__dirname, '..', 'public',deletedCar.imageUrl));
     res.redirect('/cars');
 }
 

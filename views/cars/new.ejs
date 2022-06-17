@@ -13,7 +13,7 @@
 
         <div class="container px-5 my-5">
             <h3>Add a new Car</h3>
-            <form id="createCar" action="/cars" method="post">
+            <form id="createCar" action="/cars" method="post" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label class="form-label" for="title">Title</label>
                     <input class="form-control" id="title" name="title" type="text" placeholder="Title" required />
@@ -76,6 +76,13 @@
                     <label class="form-label" for="sellersNote">Seller&#x27;s Note</label>
                     <textarea class="form-control" id="sellersNote" name="sellersNote" type="text" placeholder="Seller&#x27;s Note"
                         style="height: 10rem;"></textarea>
+                </div>
+                <div class="mb-3">
+                  <label class="custom-file">
+                    <input type="file" name="image" id="image" placeholder="Choose image" class="custom-file-input" aria-describedby="fileHelpId">
+                    <span class="custom-file-control"></span>
+                  </label>
+                  <small id="fileHelpId" class="form-text text-muted">Choose image, square image are best.</small>
                 </div>
                 <div class="d-grid">
                     <button class="btn btn-primary btn-lg" id="submitButton" type="submit">Submit</button>
